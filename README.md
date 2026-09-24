@@ -1,95 +1,162 @@
-# Heart Disease Prediction System
+Heart Disease Prediction System
 
-Python | Pandas | NumPy | Scikit-learn | Streamlit
+A machine learning-based web application for predicting the likelihood of heart disease from patient health attributes. The system combines data preprocessing, machine learning models, model evaluation, and an interactive Streamlit interface.
 
-An end-to-end machine learning system that predicts a patient's heart disease
-risk in real time. Built to match the project exactly as described:
+Overview
 
-- Performed **data cleaning, preprocessing, outlier detection and capping** on
-  patient health data to improve data quality.
-- Applied **feature engineering and categorical encoding**, and trained
-  **Logistic Regression** and **Random Forest** models for heart disease
-  prediction.
-- Evaluated model performance using **Precision, Recall, F1-score, ROC-AUC,
-  and confusion matrix**.
-- Developed and deployed an interactive **Streamlit application** for
-  real-time patient risk prediction.
+This project implements an end-to-end machine learning workflow:
 
-## Project Structure
+Data → Preprocessing → Model Training → Evaluation → Prediction
 
-```
-heart_disease_project/
-├── app.py                     # Streamlit real-time prediction app
-├── requirements.txt
+The application allows a user to enter patient information through a Streamlit interface and obtain a model-based heart disease prediction.
+
+Disclaimer: This project is intended for educational and demonstration purposes only. It is not a medical diagnostic tool and should not be used as a substitute for professional medical advice.
+
+Features
+
+* Interactive Streamlit prediction interface
+* Data preprocessing and feature scaling
+* Logistic Regression model
+* Random Forest model
+* Saved trained models using Joblib
+* Model evaluation using:
+    * Precision
+    * Recall
+    * F1-score
+    * ROC-AUC
+* Confusion matrix visualizations
+* ROC curve comparison
+* Outlier detection and handling
+* Reproducible Python environment using requirements.txt
+
+Tech Stack
+
+* Python
+* Pandas – data manipulation
+* NumPy – numerical operations
+* Scikit-learn – machine learning and evaluation
+* Matplotlib – visualization
+* Seaborn – statistical visualization
+* Joblib – model serialization
+* Streamlit – web application interface
+
+Machine Learning Models
+
+Two classification models are included:
+
+Logistic Regression
+
+A linear classification algorithm used as one of the baseline predictive models.
+
+Random Forest
+
+An ensemble learning algorithm that combines multiple decision trees to perform classification.
+
+Model Evaluation
+
+The models were evaluated using precision, recall, F1-score, and ROC-AUC.
+
+Model	Precision	Recall	F1-score	ROC-AUC
+Logistic Regression	0.7778	0.8400	0.8077	0.8488
+Random Forest	0.8478	0.7800	0.8125	0.8528
+
+The repository also contains generated confusion matrices and an ROC curve comparison under the reports/ directory.
+
+Project Structure
+
+Heart-Disease-Prediction-System/
+│
 ├── data/
-│   └── heart_disease_raw.csv  # Synthetic UCI-style patient dataset (with
-│                               # injected missing values & outliers)
+│   └── heart_disease_raw.csv
+│
+├── models/
+│   ├── feature_columns.pkl
+│   ├── logistic_regression.pkl
+│   ├── random_forest.pkl
+│   └── scaler.pkl
+│
+├── reports/
+│   ├── confusion_matrix_logistic_regression.*
+│   ├── confusion_matrix_random_forest.*
+│   ├── metrics_summary.json
+│   └── roc_curve_comparison.*
+│
 ├── src/
-│   ├── generate_data.py       # Generates the raw dataset
-│   ├── preprocessing.py       # Cleaning, outlier capping, feature
-│   │                          # engineering, categorical encoding
-│   └── train.py               # Trains + evaluates both models
-├── models/                    # Saved trained models (.pkl) - created by train.py
-└── reports/                   # Confusion matrices, ROC curve, metrics summary
-```
+│   ├── _init_.py
+│   ├── generate_data.py
+│   ├── preprocessing.py
+│   └── train.py
+│
+├── app.py
+├── requirements.txt
+├── .gitignore
+└── README.md
 
-## Dataset
+Installation
 
-The dataset mirrors the classic **UCI Heart Disease** feature set (age, sex,
-chest pain type, resting blood pressure, cholesterol, fasting blood sugar,
-resting ECG, max heart rate, exercise-induced angina, ST depression, slope,
-number of major vessels, thalassemia, and the target label). It is
-synthetically generated with realistic distributions and deliberately
-includes missing values and outliers so the cleaning pipeline has real work
-to do. To use the real UCI dataset instead, simply replace
-`data/heart_disease_raw.csv` with the same 14 columns.
+1. Clone the repository
 
-## Pipeline (`src/preprocessing.py`)
+git clone https://github.com/suryanshsingh15/Heart-Disease-Prediction-System.git
+cd Heart-Disease-Prediction-System
 
-1. **Data cleaning** — median imputation for numeric columns, mode imputation
-   for categorical columns.
-2. **Outlier detection & capping** — IQR method (1.5×IQR rule); values are
-   winsorized (capped) rather than dropped, preserving sample size.
-3. **Feature engineering** — age group, blood pressure category, cholesterol
-   category, heart-rate reserve, and an exercise-risk composite flag.
-4. **Categorical encoding** — one-hot encoding of nominal features.
+2. Create a virtual environment
 
-## Models & Evaluation (`src/train.py`)
+python -m venv .venv
 
-Trains **Logistic Regression** (with feature scaling) and **Random Forest**,
-then reports for each:
+3. Activate the environment
 
-- Precision, Recall, F1-score, ROC-AUC
-- Confusion matrix (saved as PNG in `reports/`)
-- Full classification report
-- ROC curve comparison plot (`reports/roc_curve_comparison.png`)
-- `reports/metrics_summary.json` with all metrics + the outlier report
+Windows PowerShell:
 
-## Setup & Usage
+.venv\Scripts\activate
 
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
+4. Install dependencies
 
-# 2. Generate the dataset (already included, but re-runnable)
-python src/generate_data.py
+python -m pip install -r requirements.txt
 
-# 3. Train and evaluate both models
-python src/train.py
+Running the Application
 
-# 4. Launch the real-time prediction app
+Start the Streamlit application with:
+
 streamlit run app.py
-```
 
-The Streamlit app loads the saved models from `models/`, lets you switch
-between Logistic Regression and Random Forest, enter a patient's clinical
-details through a form, and instantly returns a risk prediction with
-probability.
+The application will be available at:
 
-## Notes
+http://localhost:8501
 
-- Random seed fixed at 42 throughout for reproducibility.
-- The Random Forest currently edges out Logistic Regression slightly on
-  precision and ROC-AUC on this synthetic data; re-run `train.py` after
-  swapping in real UCI data to get production-representative numbers.
-- This is a portfolio/demo project — not a medical diagnostic tool.
+Model Artifacts
+
+The trained models and preprocessing artifacts are stored in the models/ directory.
+
+These include:
+
+* logistic_regression.pkl
+* random_forest.pkl
+* scaler.pkl
+* feature_columns.pkl
+
+The application loads these artifacts to perform predictions without retraining the models every time the application starts.
+
+Evaluation Reports
+
+The reports/ directory contains evaluation outputs generated during model development, including:
+
+* Confusion matrices
+* ROC curve comparison
+* Model performance metrics
+* Outlier processing information
+
+Future Improvements
+
+Potential improvements include:
+
+* Testing additional classification algorithms
+* Hyperparameter tuning
+* Cross-validation
+* Improved user interface and visualization
+* Model explainability using techniques such as SHAP
+* Deployment using a cloud platform
+* Adding automated model evaluation pipelines
+
+Disclaimer
+
+This project is developed for learning and demonstration purposes. Predictions produced by the application should not be interpreted as medical diagnoses. Any health-related decision should be made in consultation with a qualified healthcare professional
